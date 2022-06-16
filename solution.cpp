@@ -17,8 +17,9 @@ using namespace std;
   - walk right until you can't, then walk down until you can't,
     then left, then up. Repeat until you are at the very last
     number in the matrix
-  - shrink the bound every time you finish walking along with a
-    direction and has to turn to a new direction next
+  - shrink the enclosing rectangle every time you finish
+    walking along with a direction and has to turn to
+    a new one next
     - this is the same idea of nodes being marked as
       visited so we don't visit them more than once
 */
@@ -33,8 +34,10 @@ vector<int> Solution::spiralOrder(vector<vector<int>> &matrix)
   auto result = vector<int>();
 
   /* exit after you added the second to the
-     last number as the bounds will not allow
-     you to go anywhere
+     last number as after that the bounds
+     aren't usable, and you will
+     not be able to add the very last number
+     to the result - infinite loop
   */
   while (result.size() < m * n - 1)
   {
@@ -45,7 +48,9 @@ vector<int> Solution::spiralOrder(vector<vector<int>> &matrix)
            - this is  x == right
         */
         result.push_back(matrix[y][x++]);
-      /* finish visiting this row */
+      /* finish visiting this row.
+         - you are at this point: (y,x)=(top,right)
+      */
       top++;
     }
     else if (dir == 1) /* down */
